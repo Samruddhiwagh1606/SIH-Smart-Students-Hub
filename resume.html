@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-layout">
+        <header class="resume-header no-print">
+            <div class="nav-brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                </svg>
+                <span>Resume Generator</span>
+            </div>
+            <div class="resume-actions">
+                <select id="resumeTemplate" onchange="changeTemplate()">
+                    <option value="placement">Placement Resume</option>
+                    <option value="internship">Internship Resume</option>
+                    <option value="leadership">Leadership Resume</option>
+                </select>
+                <button onclick="window.print()" class="btn-primary">Print Resume</button>
+                <button onclick="downloadResume()" class="btn-secondary">Download PDF</button>
+                <a href="student_dashboard.html" class="btn-secondary">Back to Dashboard</a>
+            </div>
+        </header>
+
+        <main class="resume-main">
+            <div class="resume-container" id="resumeContainer">
+                <!-- Resume content will be populated here -->
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Resume Templates -->
+    <template id="placementTemplate">
+        <div class="resume-content placement-resume">
+            <div class="resume-header-section">
+                <h1 id="resumeName">A. Student</h1>
+                <div class="contact-info">
+                    <p id="resumeEmail">student@example.com</p>
+                    <p id="resumePhone">+91 9876543210</p>
+                    <p id="resumeLocation">Pune, Maharashtra</p>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Objective</h2>
+                <p>Seeking a challenging position in software development where I can utilize my technical skills and contribute to innovative projects while continuing to learn and grow professionally.</p>
+            </div>
+
+            <div class="resume-section">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <h3 id="resumeProgram">Bachelor of Engineering - Computer Engineering</h3>
+                    <p id="resumeCollege">Sanjivani College of Engineering</p>
+                    <p id="resumeYear">Expected Graduation: 2025</p>
+                </div>
+            </div>
+
+            <div class="resume-section" id="technicalSkillsSection">
+                <h2>Technical Skills</h2>
+                <div id="skillsList">
+                    <!-- Skills will be populated from projects -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="projectsResumeSection">
+                <h2>Projects</h2>
+                <div id="projectsResumeList">
+                    <!-- Projects will be populated here -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="experienceResumeSection">
+                <h2>Experience</h2>
+                <div id="experienceResumeList">
+                    <!-- Experience will be populated here -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="achievementsResumeSection">
+                <h2>Achievements</h2>
+                <ul id="achievementsResumeList">
+                    <!-- Achievements will be populated here -->
+                </ul>
+            </div>
+
+            <div class="resume-footer">
+                <p>Verified by <span id="resumeVerificationCollege">Sanjivani College of Engineering</span></p>
+                <p>Generated on: <span id="resumeGenerationDate"></span></p>
+            </div>
+        </div>
+    </template>
+
+    <template id="internshipTemplate">
+        <div class="resume-content internship-resume">
+            <div class="resume-header-section">
+                <h1 id="resumeName">A. Student</h1>
+                <div class="contact-info">
+                    <p id="resumeEmail">student@example.com</p>
+                    <p id="resumePhone">+91 9876543210</p>
+                    <p id="resumeLocation">Pune, Maharashtra</p>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Career Objective</h2>
+                <p>Enthusiastic computer engineering student seeking an internship opportunity to apply theoretical knowledge in practical environments and gain hands-on experience in software development and emerging technologies.</p>
+            </div>
+
+            <div class="resume-section">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <h3 id="resumeProgram">Bachelor of Engineering - Computer Engineering</h3>
+                    <p id="resumeCollege">Sanjivani College of Engineering</p>
+                    <p id="resumeYear">Expected Graduation: 2025</p>
+                    <p>CGPA: 8.5/10</p>
+                </div>
+            </div>
+
+            <div class="resume-section" id="courseworkSection">
+                <h2>Relevant Coursework</h2>
+                <ul>
+                    <li>Data Structures and Algorithms</li>
+                    <li>Object-Oriented Programming</li>
+                    <li>Database Management Systems</li>
+                    <li>Web Technologies</li>
+                    <li>Software Engineering</li>
+                </ul>
+            </div>
+
+            <div class="resume-section" id="projectsResumeSection">
+                <h2>Academic Projects</h2>
+                <div id="projectsResumeList">
+                    <!-- Projects will be populated here -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="technicalSkillsSection">
+                <h2>Technical Skills</h2>
+                <div id="skillsList">
+                    <!-- Skills will be populated from projects -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="activitiesResumeSection">
+                <h2>Extracurricular Activities</h2>
+                <ul id="activitiesResumeList">
+                    <!-- Activities will be populated here -->
+                </ul>
+            </div>
+
+            <div class="resume-footer">
+                <p>Verified by <span id="resumeVerificationCollege">Sanjivani College of Engineering</span></p>
+                <p>Generated on: <span id="resumeGenerationDate"></span></p>
+            </div>
+        </div>
+    </template>
+
+    <template id="leadershipTemplate">
+        <div class="resume-content leadership-resume">
+            <div class="resume-header-section">
+                <h1 id="resumeName">A. Student</h1>
+                <div class="contact-info">
+                    <p id="resumeEmail">student@example.com</p>
+                    <p id="resumePhone">+91 9876543210</p>
+                    <p id="resumeLocation">Pune, Maharashtra</p>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Leadership Summary</h2>
+                <p>Dynamic student leader with proven experience in organizing events, managing teams, and driving community initiatives. Committed to excellence in both academic and extracurricular pursuits.</p>
+            </div>
+
+            <div class="resume-section">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <h3 id="resumeProgram">Bachelor of Engineering - Computer Engineering</h3>
+                    <p id="resumeCollege">Sanjivani College of Engineering</p>
+                    <p id="resumeYear">Expected Graduation: 2025</p>
+                </div>
+            </div>
+
+            <div class="resume-section" id="leadershipExperienceSection">
+                <h2>Leadership Experience</h2>
+                <div id="leadershipExperienceList">
+                    <!-- Leadership activities will be populated here -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="projectsResumeSection">
+                <h2>Key Projects</h2>
+                <div id="projectsResumeList">
+                    <!-- Projects will be populated here -->
+                </div>
+            </div>
+
+            <div class="resume-section" id="achievementsResumeSection">
+                <h2>Awards & Recognition</h2>
+                <ul id="achievementsResumeList">
+                    <!-- Achievements will be populated here -->
+                </ul>
+            </div>
+
+            <div class="resume-section" id="communityServiceSection">
+                <h2>Community Service</h2>
+                <ul id="communityServiceList">
+                    <!-- Community service activities will be populated here -->
+                </ul>
+            </div>
+
+            <div class="resume-footer">
+                <p>Verified by <span id="resumeVerificationCollege">Sanjivani College of Engineering</span></p>
+                <p>Generated on: <span id="resumeGenerationDate"></span></p>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+    <script>
+        let currentTemplate = 'placement';
+
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            initResume();
+        });
+
+        function initResume() {
+            changeTemplate();
+        }
+
+        function changeTemplate() {
+            currentTemplate = document.getElementById('resumeTemplate').value;
+            const templateElement = document.getElementById(currentTemplate + 'Template');
+            const container = document.getElementById('resumeContainer');
+            
+            container.innerHTML = templateElement.innerHTML;
+            populateResumeData();
+        }
+
+        function populateResumeData() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Basic info
+            document.getElementById('resumeName').textContent = currentUser.name;
+            document.getElementById('resumeProgram').textContent = currentUser.program || 'Computer Engineering';
+            
+            const colleges = getData('colleges');
+            const college = colleges.find(c => c.id === currentUser.college);
+            document.getElementById('resumeCollege').textContent = college.name;
+            document.getElementById('resumeVerificationCollege').textContent = college.name;
+            document.getElementById('resumeGenerationDate').textContent = new Date().toLocaleDateString();
+
+            // Get approved activities and projects
+            const activities = getData('activities').filter(a => 
+                a.studentId === currentUser.username && a.status === 'Approved'
+            );
+            const projects = getData('projects').filter(p => 
+                p.studentId === currentUser.username && p.status === 'Approved'
+            );
+
+            // Populate based on template
+            if (currentTemplate === 'placement') {
+                populateSkills(projects);
+                populateProjects(projects, 'placement');
+                populateExperience(activities);
+                populateAchievements(activities);
+            } else if (currentTemplate === 'internship') {
+                populateSkills(projects);
+                populateProjects(projects, 'internship');
+                populateActivities(activities);
+            } else if (currentTemplate === 'leadership') {
+                populateLeadershipExperience(activities);
+                populateProjects(projects, 'leadership');
+                populateAchievements(activities);
+                populateCommunityService(activities);
+            }
+        }
+
+        function populateSkills(projects) {
+            const skillsSet = new Set();
+            projects.forEach(project => {
+                if (project.technologies) {
+                    project.technologies.split(',').forEach(tech => {
+                        skillsSet.add(tech.trim());
+                    });
+                }
+            });
+
+            const skillsList = document.getElementById('skillsList');
+            if (skillsList) {
+                skillsList.innerHTML = `
+                    <div class="skills-categories">
+                        <div class="skill-category">
+                            <h4>Programming Languages</h4>
+                            <p>Java, Python, JavaScript, C++, C</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Technologies & Frameworks</h4>
+                            <p>${Array.from(skillsSet).join(', ') || 'React, Node.js, Spring Boot, MongoDB'}</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Tools & Platforms</h4>
+                            <p>Git, Docker, AWS, Linux, VS Code</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function populateProjects(projects, template) {
+            const projectsList = document.getElementById('projectsResumeList');
+            if (!projectsList) return;
+
+            const displayProjects = projects.slice(0, 3); // Show top 3 projects
+            
+            if (displayProjects.length === 0) {
+                projectsList.innerHTML = '<p>No approved projects available.</p>';
+                return;
+            }
+
+            projectsList.innerHTML = displayProjects.map(project => `
+                <div class="resume-project">
+                    <div class="project-header">
+                        <h4>${project.title}</h4>
+                        <span class="project-duration">${new Date(project.startDate).toLocaleDateString()} - ${project.endDate ? new Date(project.endDate).toLocaleDateString() : 'Present'}</span>
+                    </div>
+                    <p class="project-description">${project.description}</p>
+                    <p class="project-tech"><strong>Technologies:</strong> ${project.technologies}</p>
+                    ${project.githubLink ? `<p class="project-link"><strong>GitHub:</strong> ${project.githubLink}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function populateExperience(activities) {
+            const experienceList = document.getElementById('experienceResumeList');
+            if (!experienceList) return;
+
+            const internships = activities.filter(a => a.type === 'Internship');
+            
+            if (internships.length === 0) {
+                experienceList.innerHTML = '<p>No internship experience available.</p>';
+                return;
+            }
+
+            experienceList.innerHTML = internships.map(internship => `
+                <div class="resume-experience">
+                    <h4>${internship.title}</h4>
+                    <p class="experience-org">${internship.organizer}</p>
+                    <p class="experience-date">${new Date(internship.date).toLocaleDateString()}</p>
+                    <p class="experience-description">${internship.description}</p>
+                </div>
+            `).join('');
+        }
+
+        function populateAchievements(activities) {
+            const achievementsList = document.getElementById('achievementsResumeList');
+            if (!achievementsList) return;
+
+            const achievements = activities.filter(a => 
+                ['Competition', 'Hackathon', 'Conference'].includes(a.type)
+            );
+
+            if (achievements.length === 0) {
+                achievementsList.innerHTML = '<li>Academic excellence with consistent performance</li>';
+                return;
+            }
+
+            achievementsList.innerHTML = achievements.map(achievement => 
+                `<li>${achievement.title} - ${achievement.organizer} (${achievement.level} Level)</li>`
+            ).join('');
+        }
+
+        function populateActivities(activities) {
+            const activitiesList = document.getElementById('activitiesResumeList');
+            if (!activitiesList) return;
+
+            const extracurricular = activities.filter(a => 
+                ['Club', 'Workshop', 'Community Service'].includes(a.type)
+            );
+
+            if (extracurricular.length === 0) {
+                activitiesList.innerHTML = '<li>Active participation in college technical events</li>';
+                return;
+            }
+
+            activitiesList.innerHTML = extracurricular.map(activity => 
+                `<li>${activity.title} - ${activity.type}</li>`
+            ).join('');
+        }
+
+        function populateLeadershipExperience(activities) {
+            const leadershipList = document.getElementById('leadershipExperienceList');
+            if (!leadershipList) return;
+
+            const leadership = activities.filter(a => 
+                ['Club', 'Community Service', 'Volunteering'].includes(a.type)
+            );
+
+            if (leadership.length === 0) {
+                leadershipList.innerHTML = '<p>No leadership activities recorded.</p>';
+                return;
+            }
+
+            leadershipList.innerHTML = leadership.map(activity => `
+                <div class="resume-leadership">
+                    <h4>${activity.title}</h4>
+                    <p class="leadership-type">${activity.type}</p>
+                    <p class="leadership-date">${new Date(activity.date).toLocaleDateString()}</p>
+                    <p class="leadership-description">${activity.description}</p>
+                </div>
+            `).join('');
+        }
+
+        function populateCommunityService(activities) {
+            const communityList = document.getElementById('communityServiceList');
+            if (!communityList) return;
+
+            const service = activities.filter(a => 
+                ['Community Service', 'Volunteering'].includes(a.type)
+            );
+
+            if (service.length === 0) {
+                communityList.innerHTML = '<li>Participated in college community outreach programs</li>';
+                return;
+            }
+
+            communityList.innerHTML = service.map(activity => 
+                `<li>${activity.title} - ${activity.organizer}</li>`
+            ).join('');
+        }
+
+        function downloadResume() {
+            showNotification('Resume PDF generation initiated! Download will begin shortly.', 'success');
+            setTimeout(() => {
+                showNotification('Resume downloaded successfully!', 'success');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

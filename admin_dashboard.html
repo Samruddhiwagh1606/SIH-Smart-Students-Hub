@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <header class="dashboard-header">
+            <div class="dashboard-nav">
+                <div class="nav-brand">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                    </svg>
+                    <span>Smart Student Hub - Admin</span>
+                </div>
+                <div class="nav-user">
+                    <span id="adminWelcome">Welcome, Admin</span>
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <!-- Admin Info -->
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="#102230" opacity="0.1"/>
+                                <circle cx="12" cy="8" r="3" fill="#102230"/>
+                                <path d="M6.5 17.5a6.5 6.5 0 0113 0" stroke="#102230" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="adminName">Admin - SCOE</h3>
+                            <p id="adminCollege">Sanjivani College of Engineering</p>
+                            <p>System Administrator</p>
+                        </div>
+                    </div>
+
+                    <!-- Institution Stats -->
+                    <div class="stats-grid admin-stats">
+                        <div class="stat-card students">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#3385ff" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalStudents">0</h3>
+                                <p>Total Students</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card activities">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#10b981" viewBox="0 0 24 24">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalApprovedActivities">0</h3>
+                                <p>Approved Activities</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card faculty">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#ff99cc" viewBox="0 0 24 24">
+                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalFaculty">0</h3>
+                                <p>Faculty Members</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NAAC Export -->
+                    <div class="export-card">
+                        <h3>NAAC & NBA Reports</h3>
+                        <p>Generate comprehensive institutional reports for accreditation purposes.</p>
+                        <div class="export-actions">
+                            <button onclick="exportNAAC()" class="btn-primary">Export NAAC Report</button>
+                            <button onclick="exportNBA()" class="btn-secondary">Export NBA Report</button>
+                            <button onclick="exportInstitutionalSummary()" class="btn-accent">Export Summary</button>
+                        </div>
+                    </div>
+
+             <!-- User Management -->
+<div class="user-management-card">
+    <h3>User Management</h3>
+    <div class="management-actions">
+        <button onclick="showAddFacultyModal()" class="btn-primary">Add Faculty</button>
+        <button onclick="showAddStudentModal()" class="btn-secondary">Add Student</button>
+        <button onclick="syncERP()" class="btn-accent">Sync with ERP</button>
+    </div>
+    
+    <div class="users-summary">
+        <h4>Current Users</h4>
+        <div id="usersSummary" class="users-grid">
+            <!-- Users summary will be populated here -->
+        </div>
+    </div>
+</div>
+
+    <!-- Add Faculty Modal -->
+<div id="addFacultyModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add New Faculty</h3>
+            <button onclick="hideModal('addFacultyModal')" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="addFacultyForm">
+                <div class="form-group">
+                    <label for="facultyName">Name</label>
+                    <input type="text" id="facultyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="facultyEmail">Email</label>
+                    <input type="email" id="facultyEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="facultyPassword">Password</label>
+                    <input type="password" id="facultyPassword" required>
+                </div>
+            </form>
+            <button onclick="addFaculty()" class="btn-primary">Add Faculty</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Student Modal -->
+<div id="addStudentModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add New Student</h3>
+            <button onclick="hideModal('addStudentModal')" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="addStudentForm">
+                <div class="form-group">
+                    <label for="studentName">Name</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentPassword">Password</label>
+                    <input type="password" id="studentPassword" required>
+                </div>
+            </form>
+            <button onclick="addStudent()" class="btn-primary">Add Student</button>
+        </div>
+    </div>
+</div>
+
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            initAdminDashboard();
+        });
+    </script>
+</body>
+</html>

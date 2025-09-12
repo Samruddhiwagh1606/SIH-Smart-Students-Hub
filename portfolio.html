@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Portfolio - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .portfolio-container { box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="portfolio-layout">
+        <header class="portfolio-header no-print">
+            <div class="nav-brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                </svg>
+                <span>Digital Portfolio Preview</span>
+            </div>
+            <div class="portfolio-actions">
+                <button onclick="window.print()" class="btn-primary">Print Portfolio</button>
+                <button onclick="downloadPDF()" class="btn-secondary">Download PDF</button>
+                <a href="student_dashboard.html" class="btn-secondary">Back to Dashboard</a>
+            </div>
+        </header>
+
+        <main class="portfolio-main">
+            <div class="portfolio-container">
+                <!-- Student Header -->
+                <div class="portfolio-student-header">
+                    <div class="student-avatar">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="#3385ff" opacity="0.1"/>
+                            <circle cx="12" cy="8" r="3" fill="#3385ff"/>
+                            <path d="M6.5 17.5a6.5 6.5 0 0113 0" stroke="#3385ff" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="student-details">
+                        <h1 id="portfolioStudentName">A. Student</h1>
+                        <p id="portfolioStudentPRN">PRN1001</p>
+                        <p id="portfolioStudentProgram">Computer Engineering</p>
+                        <p id="portfolioStudentCollege">Sanjivani College of Engineering</p>
+                    </div>
+                    <div class="portfolio-stats">
+                        <div class="stat-item">
+                            <h3 id="portfolioTotalPoints">45</h3>
+                            <p>Total Points</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="portfolioBadge">Gold</h3>
+                            <p>Badge Level</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities by Category -->
+                <div class="portfolio-sections">
+                    <div class="portfolio-section">
+                        <h2>Technical Competitions</h2>
+                        <div id="competitionsSection" class="activities-section">
+                            <!-- Competitions will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="portfolio-section">
+                        <h2>Workshops & Conferences</h2>
+                        <div id="workshopsSection" class="activities-section">
+                            <!-- Workshops will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="portfolio-section">
+                        <h2>Projects</h2>
+                        <div id="projectsSection" class="activities-section">
+                            <!-- Projects will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="portfolio-section">
+                        <h2>Internships & Industry Experience</h2>
+                        <div id="internshipsSection" class="activities-section">
+                            <!-- Internships will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="portfolio-section">
+                        <h2>Extracurricular & Community Service</h2>
+                        <div id="extracurricularSection" class="activities-section">
+                            <!-- Extracurricular activities will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Footer -->
+                <div class="portfolio-footer">
+                    <div class="verification-seal">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#3385ff"/>
+                        </svg>
+                        <div class="verification-text">
+                            <h4>Verified by</h4>
+                            <p id="verificationCollege">Sanjivani College of Engineering</p>
+                            <p id="verificationDate">Generated on: January 15, 2025</p>
+                        </div>
+                    </div>
+                    <p class="verification-note">
+                        This portfolio contains only faculty-verified achievements and activities. 
+                        All points and badges are calculated based on institutional guidelines and verified documentation.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            initPortfolio();
+        });
+
+        function downloadPDF() {
+            // Simulate PDF download
+            showNotification('PDF generation initiated! Your portfolio will be downloaded shortly.', 'success');
+            setTimeout(() => {
+                showNotification('Portfolio PDF downloaded successfully!', 'success');
+            }, 2000);
+        }
+
+        function initPortfolio() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Populate student details
+            document.getElementById('portfolioStudentName').textContent = currentUser.name;
+            document.getElementById('portfolioStudentPRN').textContent = currentUser.prn;
+            document.getElementById('portfolioStudentProgram').textContent = currentUser.program || 'Computer Engineering';
+            
+            const colleges = getData('colleges');
+            const college = colleges.find(c => c.id === currentUser.college);
+            document.getElementById('portfolioStudentCollege').textContent = college.name;
+            document.getElementById('verificationCollege').textContent = college.name;
+            
+            // Set verification date
+            document.getElementById('verificationDate').textContent = `Generated on: ${new Date().toLocaleDateString()}`;
+
+            // Get approved activities and projects
+            const activities = getData('activities').filter(a => 
+                a.studentId === currentUser.username && a.status === 'Approved'
+            );
+            const projects = getData('projects').filter(p => 
+                p.studentId === currentUser.username && p.status === 'Approved'
+            );
+
+            // Calculate stats
+            const totalPoints = activities.reduce((sum, a) => sum + (a.points || 0), 0) + 
+                              projects.reduce((sum, p) => sum + (p.points || 0), 0);
+            const badge = computeBadge(totalPoints);
+
+            document.getElementById('portfolioTotalPoints').textContent = totalPoints;
+            document.getElementById('portfolioBadge').textContent = badge;
+
+            // Populate sections
+            populatePortfolioSection('competitionsSection', activities.filter(a => 
+                ['Competition', 'Hackathon'].includes(a.type)
+            ));
+            
+            populatePortfolioSection('workshopsSection', activities.filter(a => 
+                ['Workshop', 'Conference'].includes(a.type)
+            ));
+            
+            populatePortfolioSection('projectsSection', projects);
+            
+            populatePortfolioSection('internshipsSection', activities.filter(a => 
+                a.type === 'Internship'
+            ));
+            
+            populatePortfolioSection('extracurricularSection', activities.filter(a => 
+                ['Club', 'Community Service', 'Volunteering'].includes(a.type)
+            ));
+        }
+
+        function populatePortfolioSection(sectionId, items) {
+            const section = document.getElementById(sectionId);
+            
+            if (items.length === 0) {
+                section.innerHTML = '<p class="no-activities">No verified activities in this category</p>';
+                return;
+            }
+
+            section.innerHTML = items.map(item => {
+                if (item.type) {
+                    // Activity
+                    return `
+                        <div class="portfolio-activity">
+                            <div class="activity-header">
+                                <h4>${item.title}</h4>
+                                <span class="activity-level">${item.level || 'College'} Level</span>
+                            </div>
+                            <div class="activity-details">
+                                <p><strong>Type:</strong> ${item.type}</p>
+                                <p><strong>Organizer:</strong> ${item.organizer}</p>
+                                <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()}</p>
+                                <p><strong>Points Earned:</strong> ${item.points || 0}</p>
+                                ${item.description ? `<p><strong>Description:</strong> ${item.description}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Project
+                    return `
+                        <div class="portfolio-activity">
+                            <div class="activity-header">
+                                <h4>${item.title}</h4>
+                                <span class="activity-level">${item.type || 'Academic Project'}</span>
+                            </div>
+                            <div class="activity-details">
+                                <p><strong>Duration:</strong> ${new Date(item.startDate).toLocaleDateString()} - ${item.endDate ? new Date(item.endDate).toLocaleDateString() : 'Present'}</p>
+                                <p><strong>Role:</strong> ${item.role}</p>
+                                <p><strong>Team Size:</strong> ${item.teamSize}</p>
+                                <p><strong>Technologies:</strong> ${item.technologies}</p>
+                                ${item.description ? `<p><strong>Description:</strong> ${item.description}</p>` : ''}
+                                ${item.githubLink ? `<p><strong>Repository:</strong> <a href="${item.githubLink}" target="_blank">${item.githubLink}</a></p>` : ''}
+                                ${item.demoLink ? `<p><strong>Demo:</strong> <a href="${item.demoLink}" target="_blank">${item.demoLink}</a></p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+    </script>
+</body>
+</html>

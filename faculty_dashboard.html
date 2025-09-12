@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <header class="dashboard-header">
+            <div class="dashboard-nav">
+                <div class="nav-brand">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                    </svg>
+                    <span>Smart Student Hub - Faculty</span>
+                </div>
+                <div class="nav-user">
+                    <span id="facultyWelcome">Welcome, Faculty</span>
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <!-- Faculty Info -->
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="#ff99cc" opacity="0.1"/>
+                                <circle cx="12" cy="8" r="3" fill="#ff99cc"/>
+                                <path d="M6.5 17.5a6.5 6.5 0 0113 0" stroke="#ff99cc" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="facultyName">Prof. Meera</h3>
+                            <p id="facultyDept">Computer Engineering</p>
+                            <p id="facultyCollege">Sanjivani College of Engineering</p>
+                            <p>Year: Final Year</p>
+                        </div>
+                    </div>
+
+                    <!-- Pending Approvals -->
+                    <div class="pending-card">
+                        <h3>Pending Approvals <span id="pendingCount" class="count-badge">0</span></h3>
+                        <div id="pendingList" class="pending-list">
+                            <!-- Pending items will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Student Management -->
+                    <div class="student-management-card">
+                        <h3>Student Management</h3>
+                        <div class="filters">
+                            <select id="deptFilter">
+                                <option value="Computer Engineering">Computer Engineering</option>
+                                <option value="Electronics Engineering">Electronics Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            </select>
+                            <select id="yearFilter">
+                                <option value="First Year">First Year</option>
+                                <option value="Second Year">Second Year</option>
+                                <option value="Third Year">Third Year</option>
+                                <option value="Final Year">Final Year</option>
+                            </select>
+                            <button onclick="loadStudents()" class="btn-secondary">Load Students</button>
+                        </div>
+                        <div id="studentsList" class="students-list">
+                            <!-- Students will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Export Actions -->
+                    <div class="export-actions">
+                        <button onclick="downloadNBA()" class="btn-accent">Download NBA Report</button>
+                        <button onclick="downloadDeptReport()" class="btn-accent">Download Department Report</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            initFacultyDashboard();
+        });
+    </script>
+</body>
+</html>

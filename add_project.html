@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-layout">
+        <header class="form-header">
+            <div class="nav-brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                </svg>
+                <span>Add New Project</span>
+            </div>
+            <a href="student_dashboard.html" class="btn-secondary">Back to Dashboard</a>
+        </header>
+
+        <main class="form-main">
+            <div class="form-container">
+                <div class="form-card">
+                    <h2>Submit New Project for Review</h2>
+                    <p>Document your project work for faculty verification and portfolio inclusion.</p>
+
+                    <form id="projectForm">
+                        <div class="form-group">
+                            <label for="projectTitle">Project Title *</label>
+                            <input type="text" id="projectTitle" name="projectTitle" required placeholder="e.g., Smart Campus Management System">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectType">Project Type *</label>
+                            <select id="projectType" name="projectType" required>
+                                <option value="">Select project type...</option>
+                                <option value="Academic Project">Academic Project</option>
+                                <option value="Industry Project">Industry Project</option>
+                                <option value="Research Project">Research Project</option>
+                                <option value="Capstone Project">Capstone Project</option>
+                                <option value="Internship Project">Internship Project</option>
+                                <option value="Open Source">Open Source Contribution</option>
+                                <option value="Personal Project">Personal Project</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="startDate">Start Date *</label>
+                                <input type="date" id="startDate" name="startDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" id="endDate" name="endDate">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectDescription">Project Description *</label>
+                            <textarea id="projectDescription" name="projectDescription" rows="5" required placeholder="Describe the project objectives, your role, technologies used, and key achievements..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="technologies">Technologies Used *</label>
+                            <input type="text" id="technologies" name="technologies" required placeholder="e.g., React, Node.js, MongoDB, Python, etc.">
+                            <small class="form-help">Separate multiple technologies with commas</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="teamSize">Team Size *</label>
+                            <select id="teamSize" name="teamSize" required>
+                                <option value="">Select team size...</option>
+                                <option value="1">Individual (1)</option>
+                                <option value="2">Pair (2)</option>
+                                <option value="3-4">Small Team (3-4)</option>
+                                <option value="5-8">Medium Team (5-8)</option>
+                                <option value="9+">Large Team (9+)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectRole">Your Role *</label>
+                            <input type="text" id="projectRole" name="projectRole" required placeholder="e.g., Team Lead, Frontend Developer, Backend Developer">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="githubLink">GitHub/Repository Link</label>
+                            <input type="url" id="githubLink" name="githubLink" placeholder="https://github.com/username/project">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="demoLink">Demo/Live Link</label>
+                            <input type="url" id="demoLink" name="demoLink" placeholder="https://project-demo.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mentor">Mentor/Guide</label>
+                            <input type="text" id="mentor" name="mentor" placeholder="Prof. Name or Industry Mentor">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectFiles">Upload Project Files</label>
+                            <input type="file" id="projectFiles" name="projectFiles" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
+                            <small class="form-help">Upload project report, presentation, or compressed source code</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facultyNote">Note to Faculty</label>
+                            <textarea id="facultyNote" name="facultyNote" rows="3" placeholder="Any additional context or achievements to highlight..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-large">Submit Project</button>
+                            <a href="student_dashboard.html" class="btn-secondary btn-large">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="help-card">
+                    <h3>Project Submission Tips</h3>
+                    <ul>
+                        <li><strong>Complete Documentation:</strong> Include detailed project description and your specific contributions</li>
+                        <li><strong>Working Links:</strong> Ensure GitHub and demo links are accessible</li>
+                        <li><strong>Technology Stack:</strong> List all relevant technologies and frameworks used</li>
+                        <li><strong>Team Collaboration:</strong> Clearly mention your role in team projects</li>
+                        <li><strong>Files Upload:</strong> Include project reports, presentations, or source code</li>
+                        <li><strong>Mentor Information:</strong> Credit your guide or mentor if applicable</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            
+            document.getElementById('projectForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const project = {
+                    title: formData.get('projectTitle'),
+                    type: formData.get('projectType'),
+                    startDate: formData.get('startDate'),
+                    endDate: formData.get('endDate'),
+                    description: formData.get('projectDescription'),
+                    technologies: formData.get('technologies'),
+                    teamSize: formData.get('teamSize'),
+                    role: formData.get('projectRole'),
+                    githubLink: formData.get('githubLink'),
+                    demoLink: formData.get('demoLink'),
+                    mentor: formData.get('mentor'),
+                    files: formData.get('projectFiles')?.name || '',
+                    facultyNote: formData.get('facultyNote')
+                };
+                
+                const result = submitProject(project);
+                
+                const notification = document.getElementById('notification');
+                if (result.success) {
+                    notification.className = 'notification success';
+                    notification.textContent = 'Project submitted successfully! Redirecting to dashboard...';
+                    notification.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'student_dashboard.html';
+                    }, 2000);
+                } else {
+                    notification.className = 'notification error';
+                    notification.textContent = result.message;
+                    notification.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

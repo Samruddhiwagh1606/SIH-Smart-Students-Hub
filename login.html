@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                </svg>
+                <h1>Smart Student Hub</h1>
+                <p>Choose your college first, then sign in. Students & faculty are pre-created by Admin.</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="college">Select College</label>
+                    <select id="college" name="college" required>
+                        <option value="">Choose your institution...</option>
+                        <option value="sju">Sanjivani University</option>
+                        <option value="scoe">Sanjivani College of Engineering</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn-primary btn-large">Sign In</button>
+
+                <div class="login-help">
+                    <h3>Demo Accounts</h3>
+                    <div class="demo-accounts">
+                        <div class="demo-section">
+                            <h4>Sanjivani University (SJU)</h4>
+                            <p><strong>Student:</strong> student2 / pass</p>
+                            <p><strong>Faculty:</strong> faculty2 / pass</p>
+                            <p><strong>Admin:</strong> admin2 / pass</p>
+                        </div>
+                        <div class="demo-section">
+                            <h4>Sanjivani College of Engineering (SCOE)</h4>
+                            <p><strong>Student:</strong> student1 / pass</p>
+                            <p><strong>Faculty:</strong> faculty1 / pass</p>
+                            <p><strong>Admin:</strong> admin1 / pass</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="login-footer">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginMessage" class="message hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const college = document.getElementById('college').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                const result = handleLogin(college, username, password);
+                
+                const messageEl = document.getElementById('loginMessage');
+                
+                if (result.success) {
+                    messageEl.className = 'message success';
+                    messageEl.textContent = 'Login successful! Redirecting...';
+                    messageEl.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        window.location.href = result.redirect;
+                    }, 1500);
+                } else {
+                    messageEl.className = 'message error';
+                    messageEl.textContent = result.message;
+                    messageEl.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        messageEl.classList.add('hidden');
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

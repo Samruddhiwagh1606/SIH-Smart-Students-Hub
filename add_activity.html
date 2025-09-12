@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Activity - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-layout">
+        <header class="form-header">
+            <div class="nav-brand">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                </svg>
+                <span>Add New Activity</span>
+            </div>
+            <a href="student_dashboard.html" class="btn-secondary">Back to Dashboard</a>
+        </header>
+
+        <main class="form-main">
+            <div class="form-container">
+                <div class="form-card">
+                    <h2>Submit New Activity for Approval</h2>
+                    <p>Fill out the details below and upload proof for faculty verification.</p>
+
+                    <form id="activityForm">
+                        <div class="form-group">
+                            <label for="activityTitle">Activity Title *</label>
+                            <input type="text" id="activityTitle" name="activityTitle" required placeholder="e.g., National Level Hackathon 2024">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activityType">Activity Type *</label>
+                            <select id="activityType" name="activityType" required>
+                                <option value="">Select activity type...</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Conference">Conference</option>
+                                <option value="Competition">Competition</option>
+                                <option value="Internship">Internship</option>
+                                <option value="Hackathon">Hackathon</option>
+                                <option value="Club">Club Activity</option>
+                                <option value="Community Service">Community Service</option>
+                                <option value="Volunteering">Volunteering</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activityDate">Activity Date *</label>
+                            <input type="date" id="activityDate" name="activityDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organizerName">Organizer/Institution *</label>
+                            <input type="text" id="organizerName" name="organizerName" required placeholder="e.g., IIT Bombay, Microsoft, etc.">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activityLevel">Activity Level *</label>
+                            <select id="activityLevel" name="activityLevel" required>
+                                <option value="">Select level...</option>
+                                <option value="College">College Level</option>
+                                <option value="University">University Level</option>
+                                <option value="State">State Level</option>
+                                <option value="National">National Level</option>
+                                <option value="International">International Level</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activityDescription">Description *</label>
+                            <textarea id="activityDescription" name="activityDescription" rows="4" required placeholder="Describe your role, achievements, skills gained, etc."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proofFile">Upload Proof *</label>
+                            <input type="file" id="proofFile" name="proofFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <small class="form-help">Upload certificate, photo, or any proof document (PDF, JPG, PNG)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facultyNote">Note to Faculty</label>
+                            <textarea id="facultyNote" name="facultyNote" rows="3" placeholder="Any additional information or context for the faculty reviewer..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-large">Submit for Approval</button>
+                            <a href="student_dashboard.html" class="btn-secondary btn-large">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="help-card">
+                    <h3>Submission Guidelines</h3>
+                    <ul>
+                        <li><strong>Proof Required:</strong> Always upload valid certificates or documentation</li>
+                        <li><strong>Accurate Details:</strong> Ensure all information is correct as it will appear in your portfolio</li>
+                        <li><strong>Processing Time:</strong> Activities typically get reviewed within 2-3 working days</li>
+                        <li><strong>Points System:</strong> Points are awarded based on activity type and level</li>
+                        <li><strong>Faculty Review:</strong> Your assigned faculty will verify the submission</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            
+            document.getElementById('activityForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const activity = {
+                    title: formData.get('activityTitle'),
+                    type: formData.get('activityType'),
+                    date: formData.get('activityDate'),
+                    organizer: formData.get('organizerName'),
+                    level: formData.get('activityLevel'),
+                    description: formData.get('activityDescription'),
+                    proofFile: formData.get('proofFile').name || 'certificate.pdf',
+                    facultyNote: formData.get('facultyNote')
+                };
+                
+                const result = submitActivity(activity);
+                
+                const notification = document.getElementById('notification');
+                if (result.success) {
+                    notification.className = 'notification success';
+                    notification.textContent = 'Activity submitted successfully! Redirecting to dashboard...';
+                    notification.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'student_dashboard.html';
+                    }, 2000);
+                } else {
+                    notification.className = 'notification error';
+                    notification.textContent = result.message;
+                    notification.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

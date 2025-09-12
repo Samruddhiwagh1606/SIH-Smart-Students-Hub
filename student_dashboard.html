@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Smart Student Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <header class="dashboard-header">
+            <div class="dashboard-nav">
+                <div class="nav-brand">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#3385ff"/>
+                    </svg>
+                    <span>Smart Student Hub</span>
+                </div>
+                <div class="nav-user">
+                    <span id="userWelcome">Welcome, Student</span>
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <!-- Profile Card -->
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="#3385ff" opacity="0.1"/>
+                                <circle cx="12" cy="8" r="3" fill="#3385ff"/>
+                                <path d="M6.5 17.5a6.5 6.5 0 0113 0" stroke="#3385ff" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="studentName">A. Student</h3>
+                            <p id="studentPRN">PRN1001</p>
+                            <p id="studentProgram">Computer Engineering</p>
+                            <p id="studentCollege">Sanjivani College of Engineering</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card approved">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#10b981" viewBox="0 0 24 24">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="approvedCount">0</h3>
+                                <p>Approved</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pending">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#f59e0b" viewBox="0 0 24 24">
+                                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="pendingCount">0</h3>
+                                <p>Pending</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card points">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#3385ff" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalPoints">0</h3>
+                                <p>Points</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card badge">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" fill="#ff99cc" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="8" r="7"/>
+                                    <path d="M8.21 13.89l7.5 7.5c.39.39 1.02.39 1.41 0l7.5-7.5"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="currentBadge">None</h3>
+                                <p>Badge</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <a href="add_activity.html" class="btn-primary">Add Activity</a>
+                        <a href="add_project.html" class="btn-secondary">Add Project</a>
+                        <button onclick="generatePortfolio()" class="btn-accent">Generate Portfolio</button>
+                        <button onclick="generateResume()" class="btn-accent">Generate Resume</button>
+                    </div>
+
+                    <!-- Recent Activities -->
+                    <div class="activities-card">
+                        <h3>Recent Activities</h3>
+                        <div id="activitiesList" class="activities-list">
+                            <!-- Activities will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            seed();
+            initStudentDashboard();
+        });
+    </script>
+</body>
+</html>
